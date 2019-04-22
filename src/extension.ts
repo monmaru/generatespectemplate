@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 				if (err === null) {
 					fs.mkdir(path.join(root, 'images'), err => {});
 					fs.mkdir(path.join(root, 'materials'), err => {});
-					fs.appendFile(path.join(root, 'index.md'), "", err => {});
+					fs.appendFile(path.join(root, 'index.md'), makeMarkdownTemplate(specName), err => {});
 				} else {
 					vscode.window.showErrorMessage(err.message);
 				}
@@ -42,3 +42,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
+
+function makeMarkdownTemplate(specName: string): string {
+	return `
+# ${specName}
+
+## 1章
+
+## 2章
+`;
+}
