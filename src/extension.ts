@@ -9,32 +9,33 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('extension.generatespectemplate', async () => {
 		const workspaces = vscode.workspace.workspaceFolders;
-
-		if (workspaces !== undefined) {
-			const specName = await vscode.window.showInputBox({
-				placeHolder: "Name Your Spec"
-			});
-
-			if (specName === undefined) {
-				vscode.window.showErrorMessage("Spec name is empty!!");
-				return;
-			}
-
-			const current = workspaces[0].uri.fsPath;
-			const root = path.join(current, specName);
-
-			fs.mkdir(root, err => {
-				if (err === null) {
-					fs.mkdir(path.join(root, 'images'), err => {});
-					fs.mkdir(path.join(root, 'materials'), err => {});
-					fs.appendFile(path.join(root, 'index.md'), makeMarkdownTemplate(specName), err => {});
-				} else {
-					vscode.window.showErrorMessage(err.message);
-				}
-			});
-
-			vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(root), false);
+		if (workspaces === undefined) {
+			return;
 		}
+
+		const specName = await vscode.window.showInputBox({
+			placeHolder: "Name Your Spec"
+		});
+
+		if (specName === undefined) {
+			vscode.window.showErrorMessage("Spec name is empty!!");
+			return;
+		}
+
+		const current = workspaces[0].uri.fsPath;
+		const root = path.join(current, specName);
+
+		fs.mkdir(root, err => {
+			if (err === null) {
+				fs.mkdir(path.join(root, 'images'), err => {});
+				fs.mkdir(path.join(root, 'materials'), err => {});
+				fs.appendFile(path.join(root, 'index.md'), makeMarkdownTemplate(specName), err => {});
+			} else {
+				vscode.window.showErrorMessage(err.message);
+			}
+		});
+
+		vscode.commands.executeCommand('vscode.openFolder', vscode.Uri.file(root), false);
 	});
 
 	context.subscriptions.push(disposable);
