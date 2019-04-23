@@ -27,9 +27,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 		fs.mkdir(root, err => {
 			if (err === null) {
-				fs.mkdir(path.join(root, 'images'), err => {});
-				fs.mkdir(path.join(root, 'materials'), err => {});
-				fs.appendFile(path.join(root, 'index.md'), makeMarkdownTemplate(specName), err => {});
+				fs.mkdir(path.join(root, 'images'), _err => {});
+				fs.mkdir(path.join(root, 'materials'), _err => {});
+				fs.appendFile(path.join(root, 'index.md'), makeMarkdownTemplate(specName), _err => {});
 			} else {
 				vscode.window.showErrorMessage(err.message);
 			}
